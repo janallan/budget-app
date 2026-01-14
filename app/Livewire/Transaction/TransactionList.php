@@ -26,6 +26,7 @@ class TransactionList extends Component
 
         $this->transaction = modelFillableToArray(Transaction::class);
         $this->transaction['type'] = TransactionTypes::EXPENSE;
+        $this->transaction['transaction_date'] = now()->toDateString();
     }
 
     #[On('edit-transaction')]
@@ -48,11 +49,16 @@ class TransactionList extends Component
 
     public function updatedTransactionCategoryId($value)
     {
-        $category = Category::where('id', $value)->find();
+        $category = Category::find($value);
         if ($category) {
             $this->transaction['type'] = $category->type;
         }
         else $this->transaction['type'] = TransactionTypes::EXPENSE;
+    }
+
+    public function updatedFilters()
+    {
+        $this->resetPage();
     }
 
     public function mount()
@@ -65,6 +71,7 @@ class TransactionList extends Component
     {
         $transactions = Transaction::commonFilters($this->filters)
             ->orderByDesc('transaction_date')
+            ->orderByDesc('id')
             ->paginate(10);
 
         return view('livewire.transaction.transaction-list', compact('transactions'));
@@ -98,12 +105,6 @@ class TransactionList extends Component
     public function rules(): array
     {
         $rules = [
-            'transaction.name' => [
-                'required',
-                'string',
-                'max:60',
-                Rule::unique('transaction_types', 'name')->ignore($this->id),
-            ],
             'transaction.is_active' => [
                 'sometimes',
                 'nullable',

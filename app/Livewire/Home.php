@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Enums\TransactionTypes;
 use App\Models\Transaction;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Home extends Component
@@ -12,6 +13,12 @@ class Home extends Component
     public array $cards = [];
     public array $data = [];
 
+    #[On('transaction-added')]
+    public function refreshDashboard()
+    {
+        $this->cards = Transaction::dashboardCard();
+        $this->data = Transaction::commonFilters($this->filters)->dailyPerType()->get()->toArray();
+    }
     // public array $data = [
     //     ['date' => '2026-01-01', 'twitter' => 0.22, 'facebook' => 0.30, 'instagram' => 0.15],
     //     ['date' => '2026-01-02', 'twitter' => 0.19, 'facebook' => 0.28, 'instagram' => 0.18],

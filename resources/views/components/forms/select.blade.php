@@ -1,24 +1,23 @@
-<?php
-    $attributes = $attributes->merge([
-        'class' => 'form-select'
-    ]);
-?>
 <div>
+    <flux:label class="mb-3">{{ $label }}</flux:label>
+
     <flux:select id="{{ $id }}"
-            class="{{ $attributes->get('class')}}"
-            {{ $attributes->except('class') }}
-            placeholder="Choos {{ $label}} .."
+            {{ $attributes }}
+            placeholder="Choose {{ $label}} .."
         >
         @if (isset($options))
             @if ($hasEmptyOption)
-                <option value="" {{ $hasEmptyOption ? '' : 'hidden' }}>Please select a {{ $label}}</option>
+                <flux:select.option value="">
+                    Please select a {{ $label }}
+                </flux:select.option>
             @endif
 
             @foreach ($options as $ok => $ov)
                 <flux:select.option
                     value="{{ isset($optionValueKey) ? $ov[$optionValueKey] : $ov }}"
-                    label="{{ isset($optionLabelKey) ? $ov[$optionLabelKey] : $ok }}"
-                />
+                >
+                    {{ isset($optionLabelKey) ? $ov[$optionLabelKey] : $ok }}
+                </flux:select.option>
             @endforeach
         @else
             {{ $slot}}

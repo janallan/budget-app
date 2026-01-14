@@ -38,6 +38,8 @@ class QuickAdd extends Component
         $this->resetValidation();
         $this->reset('transaction');
 
+        $this->dispatch('transaction-added');
+
         toast('Transaction successfully saved');
     }
 

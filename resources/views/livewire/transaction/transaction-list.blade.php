@@ -1,11 +1,47 @@
 @section('title', 'Transactions')
 <div>
-    <div class="flex justify-end">
+    <div class="flex justify-end mb-4 pb-2">
         <flux:modal.trigger name="transaction-form-modal">
             <flux:button icon="plus" variant="primary" inset="top bottom"
                 wire:click="$dispatch('add-transaction')"
             >Add</flux:button>
         </flux:modal.trigger>
+    </div>
+
+    <div class="grid grid-cols-12 gap-4 mb-4">
+        <div class="col-span-3">
+            <flux:input wire:model="filters.search" label="Search" placeholder="Search" />
+        </div>
+        <div class="col-span-3">
+            <flux:label class="mb-3">Transaction Dates</flux:label>
+            <flux:input.group>
+                <flux:input wire:model.change="filters.dates.from" type="date" />
+                <flux:input wire:model.change="filters.dates.to" type="date" />
+            </flux:input.group>
+
+        </div>
+        <div class="col-span-3">
+            <x-forms.select
+                :options="$options['categories']"
+                option-value-key="id"
+                option-label-key="name"
+                label="Filter by Category"
+                wire:model.change="filters.category"
+                :has-empty-option="true"
+                variant="listbox" searchable
+            />
+        </div>
+        <div class="col-span-3">
+            <x-forms.select
+                :options="$options['types']"
+                option-value-key="value"
+                option-label-key="label"
+                label="Filter by Type"
+                wire:model.change="filters.type"
+                :has-empty-option="true"
+                variant="listbox" searchable
+            />
+        </div>
     </div>
 
     <flux:table :paginate="$transactions">
@@ -54,34 +90,44 @@
         </flux:table.rows>
     </flux:table>
 
-    <flux:modal name="transaction-form-modal" class="md:w-96">
+    <flux:modal name="transaction-form-modal" class="w-lg">
         <form wire:submit="saveTransaction" class="space-y-6">
             <flux:heading size="lg">Transaction</flux:heading>
 
-            <flux:input wire:model="transaction.amount" label="Amount" />
-
-            <x-forms.select
-                :options="$options['categories']"
-                option-value-key="id"
-                option-label-key="name"
-                label="Category"
-                wire:model.change="transaction.category_id"
-            />
-
-            <x-forms.select
-                :options="$options['types']"
-                option-value-key="value"
-                option-label-key="label"
-                label="Type"
-                wire:model.change="transaction.type"
-            />
-
-            <flux:input wire:model="transaction.description" label="Description" />
-
+            <div class="grid grid-cols-12 gap-4 mb-4">
+                <div class="col-span-6">
+                    <flux:input wire:model="transaction.amount" label="Amount" type="number" />
+                </div>
+                <div class="col-span-6">
+                    <flux:input wire:model="transaction.transaction_date" label="Transaction Date" type="date" />
+                </div>
+                <div class="col-span-6">
+                    <x-forms.select
+                        :options="$options['categories']"
+                        option-value-key="id"
+                        option-label-key="name"
+                        label="Category"
+                        wire:model.change="transaction.category_id"
+                        variant="listbox" searchable
+                    />
+                </div>
+                <div class="col-span-6">
+                    <x-forms.select
+                        :options="$options['types']"
+                        option-value-key="value"
+                        option-label-key="label"
+                        label="Type"
+                        wire:model.change="transaction.type"
+                    />
+                </div>
+                <div class="col-span-12">
+                    <flux:input wire:model="transaction.description" label="Description" />
+                </div>
+            </div>
             <div class="flex">
                 <flux:spacer />
 
-                <flux:button wire:click="saveTransaction" variant="primary">Save changes</flux:button>
+                <flux:button type="submit" variant="primary">Save changes</flux:button>
             </div>
         </form>
     </flux:modal>
