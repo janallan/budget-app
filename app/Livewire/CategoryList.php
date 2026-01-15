@@ -93,7 +93,10 @@ class CategoryList extends Component
                 'required',
                 'string',
                 'max:60',
-                Rule::unique('categories', 'name')->ignore($this->id),
+                Rule::unique('categories', 'name')
+                    ->where('account_id', user()->id)
+                    ->where('type', $this->category['type'])
+                    ->ignore($this->id),
             ],
             'category.type' => [
                 'required',

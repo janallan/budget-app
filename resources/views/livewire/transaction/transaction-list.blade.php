@@ -8,19 +8,19 @@
         </flux:modal.trigger>
     </div>
 
-    <div class="grid grid-cols-12 gap-4 mb-4">
-        <div class="col-span-3">
-            <flux:input wire:model="filters.search" label="Search" placeholder="Search" />
+    <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
+        <div>
+            <flux:input wire:model.change="filters.search" label="Search" placeholder="Search" />
         </div>
-        <div class="col-span-3">
+        <div>
             <flux:label class="mb-3">Transaction Dates</flux:label>
-            <flux:input.group>
+            <flux:input.group class="grid grid-cols-2">
                 <flux:input wire:model.change="filters.dates.from" type="date" />
                 <flux:input wire:model.change="filters.dates.to" type="date" />
             </flux:input.group>
 
         </div>
-        <div class="col-span-3">
+        <div>
             <x-forms.select
                 :options="$options['categories']"
                 option-value-key="id"
@@ -31,7 +31,7 @@
                 variant="listbox" searchable
             />
         </div>
-        <div class="col-span-3">
+        <div>
             <x-forms.select
                 :options="$options['types']"
                 option-value-key="value"

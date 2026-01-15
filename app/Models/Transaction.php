@@ -3,10 +3,16 @@
 namespace App\Models;
 
 use App\Enums\TransactionTypes;
+use App\Models\Scopes\OwnAccountScope;
+use App\Observers\TransactionObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+#[ScopedBy([OwnAccountScope::class])]
+#[ObservedBy([TransactionObserver::class])]
 class Transaction extends Model
 {
     /**
@@ -15,6 +21,7 @@ class Transaction extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'account_id',
         'type',
         'amount',
         'category_id',

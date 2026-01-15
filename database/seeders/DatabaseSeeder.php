@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Actions\User\CreateAccountDefault;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,6 +25,10 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('password'),
             ]);
+
+            $user->refresh();
+
+            (new CreateAccountDefault)($user);
         }
     }
 }

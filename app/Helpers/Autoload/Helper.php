@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Carbon\Carbon;
 use Flux\Flux;
 use Illuminate\Support\Str;
@@ -146,5 +147,17 @@ if (! function_exists('formatDate')) {
 
         if (!filled($date)) return '';
         return Carbon::parse($date)->tz('Asia/Manila')->format($format);
+    }
+}
+
+if (! function_exists('user')) {
+    /**
+     * Get current user
+     *
+     * @return \App\Models\User|null
+     */
+    function user(): ?User
+    {
+        return auth()->user();
     }
 }

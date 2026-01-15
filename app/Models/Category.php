@@ -2,9 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\OwnAccountScope;
+use App\Observers\CategoryObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+#[ScopedBy([OwnAccountScope::class])]
+#[ObservedBy([CategoryObserver::class])]
 class Category extends Model
 {
     /**
@@ -13,6 +19,7 @@ class Category extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'account_id',
         'type',
         'name',
         'is_active',

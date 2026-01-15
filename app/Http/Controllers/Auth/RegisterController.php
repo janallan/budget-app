@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Actions\Account\CreateNewAccount;
-use App\Enums\Roles;
+use App\Actions\User\CreateAccountDefault;
 use App\Http\Controllers\Controller;
-use App\Models\Account;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -35,7 +31,7 @@ class RegisterController extends Controller implements HasMiddleware
      *
      * @var string
      */
-    protected $redirectTo = '/?login=true';
+    protected $redirectTo = '/';
 
     /**
      * Get the middleware that should be assigned to the controller.
@@ -86,7 +82,7 @@ class RegisterController extends Controller implements HasMiddleware
 
             $user->refresh();
 
-            (new CreateNewAccount)($user);
+            (new CreateAccountDefault)($user);
 
             return $user;
         });

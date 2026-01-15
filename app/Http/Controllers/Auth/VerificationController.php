@@ -27,7 +27,7 @@ class VerificationController extends Controller implements HasMiddleware
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Get the middleware that should be assigned to the controller.

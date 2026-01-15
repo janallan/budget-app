@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('account_id');
             $table->string('type');
             $table->decimal('amount')->nullable()->default(0);
             $table->foreignId('category_id')->nullable()->default(null);

@@ -8,6 +8,23 @@
         </flux:modal.trigger>
 
     </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
+        <div>
+            <flux:input wire:model.change="filters.search" label="Search" placeholder="Search" />
+        </div>
+        <div>
+            <x-forms.select
+                :options="$options['types']"
+                option-value-key="value"
+                option-label-key="label"
+                label="Filter by Type"
+                wire:model.change="filters.type"
+                :has-empty-option="true"
+                variant="listbox" searchable
+            />
+        </div>
+    </div>
+
     <flux:table :paginate="$categories">
         <flux:table.columns>
             <flux:table.column>Name</flux:table.column>
