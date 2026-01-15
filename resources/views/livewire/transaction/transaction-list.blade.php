@@ -1,5 +1,8 @@
 @section('title', 'Transactions')
 <div>
+    <div wire:loading >
+        <x-ui.loading />
+    </div>
     <div class="flex justify-end mb-4 pb-2">
         <flux:modal.trigger name="transaction-form-modal">
             <flux:button icon="plus" variant="primary" inset="top bottom"
@@ -96,7 +99,7 @@
 
             <div class="grid grid-cols-12 gap-4 mb-4">
                 <div class="col-span-6">
-                    <flux:input wire:model="transaction.amount" label="Amount" type="number" />
+                    <flux:input wire:model="transaction.amount" label="Amount" type="number" step="0.01" />
                 </div>
                 <div class="col-span-6">
                     <flux:input wire:model="transaction.transaction_date" label="Transaction Date" type="date" />

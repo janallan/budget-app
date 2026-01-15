@@ -1,12 +1,14 @@
 @section('title', 'Categories')
 <div>
+    <div wire:loading >
+        <x-ui.loading />
+    </div>
     <div class="flex justify-end">
         <flux:modal.trigger name="category-form-modal">
             <flux:button icon="plus" variant="primary" inset="top bottom"
                 wire:click="$dispatch('add-category')"
             >Add</flux:button>
         </flux:modal.trigger>
-
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
         <div>

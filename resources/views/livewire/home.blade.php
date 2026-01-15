@@ -1,8 +1,11 @@
 @section('title', 'Home')
 <div>
-    <div class="grid grid-cols-3 gap-x-4 gap-y-6">
+    <div wire:loading >
+        <x-ui.loading />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="col-span-2">
-            <div class="flex gap-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 @foreach ($cards as $card)
                     <div class="relative flex-1 rounded-lg px-6 py-4 bg-zinc-50 dark:bg-zinc-700">
                         <flux:subheading>{{ $card['title'] }}</flux:subheading>
