@@ -63,7 +63,7 @@
         </flux:table.rows>
     </flux:table>
 
-    <flux:modal name="category-form-modal" class="md:w-96">
+    <flux:modal name="category-form-modal" class="md:w-96" :dismissible="false">
         <form wire:submit="saveCategory" class="space-y-6">
             <flux:heading size="lg">Category</flux:heading>
 

@@ -42,7 +42,7 @@
         </flux:table.rows>
     </flux:table>
 
-    <flux:modal name="template-form-modal" class="md:w-96">
+    <flux:modal name="template-form-modal" class="md:w-96" :dismissible="false">
         <form wire:submit="saveTemplate" class="space-y-6">
             <flux:heading size="lg">Template</flux:heading>
 

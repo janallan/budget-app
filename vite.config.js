@@ -19,4 +19,11 @@ export default defineConfig({
             ]
         }),
     ],
+    theme: {
+        extend: {
+            backgroundColor: {
+                'modal-overlay': 'rgba(0, 0, 0, 1)'
+            }
+        }
+    }
 });

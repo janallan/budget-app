@@ -1,8 +1,5 @@
 @section('title', 'Transactions')
 <div>
-    <div wire:loading >
-        <x-ui.loading />
-    </div>
     <div class="flex justify-end mb-4 pb-2">
         <flux:modal.trigger name="transaction-form-modal">
             <flux:button icon="plus" variant="primary" inset="top bottom"
@@ -93,7 +90,7 @@
         </flux:table.rows>
     </flux:table>
 
-    <flux:modal name="transaction-form-modal" class="w-lg">
+    <flux:modal name="transaction-form-modal" class="w-lg" :dismissible="false">
         <form wire:submit="saveTransaction" class="space-y-6">
             <flux:heading size="lg">Transaction</flux:heading>
 
