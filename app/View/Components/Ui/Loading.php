@@ -11,16 +11,7 @@ class Loading extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(
-        // Optional: limit the loader to specific Livewire actions/props (e.g. "save" or "search")
-        public $target = null,
-
-        // Text under the spinner
-        public $text = 'Loading...',
-
-        // Optional: add extra classes (e.g. "bg-black/40")
-        public $class = 'bg-white/70',
-    )
+    public function __construct()
     {
         //
     }

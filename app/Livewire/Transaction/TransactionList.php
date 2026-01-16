@@ -25,6 +25,7 @@ class TransactionList extends Component
         $this->reset('id', 'transaction');
 
         $this->transaction = modelFillableToArray(Transaction::class);
+        $this->transaction['amount'] = null;
         $this->transaction['type'] = TransactionTypes::EXPENSE;
         $this->transaction['transaction_date'] = now()->toDateString();
     }

@@ -83,8 +83,9 @@
         </div>
 
         <div class="flex-1 p-4 max-lg:hidden">
-            <div class="text-white relative rounded-lg h-full w-full bg-zinc-900 flex flex-col items-start justify-end p-16" 
-                style="background-image: url('{{ url('build/images/login-side.png') }}'); background-position: center; background-repeat: no-repeat; background-color: white">
+            <div class="relative rounded-lg h-full w-full flex flex-col items-start justify-end p-16
+                bg-white dark:bg-zinc-800 bg-center bg-no-repeat"
+                style="background-image: url('{{ url('build/images/login-side.png') }}'); ">
             </div>
         </div>
     </div>
