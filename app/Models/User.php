@@ -47,4 +47,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the setting that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function setting()
+    {
+        return $this->belongsTo(AccountSetting::class, 'id', 'account_id');
+    }
 }

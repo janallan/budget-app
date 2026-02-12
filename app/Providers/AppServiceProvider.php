@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Enums\SalaryOptions;
+use App\Enums\SalaryTypes;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        class_alias(SalaryTypes::class, 'SalaryTypes');
+        class_alias(SalaryOptions::class, 'SalaryOptions');
     }
 
     /**
