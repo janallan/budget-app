@@ -26,7 +26,8 @@ class Transaction extends Model
         'amount',
         'category_id',
         'transaction_date',
-        'description'
+        'description',
+        'recurring_transaction_id',
     ];
 
     /**

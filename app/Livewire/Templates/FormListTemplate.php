@@ -40,7 +40,7 @@ class FormListTemplate extends Component
         $template = Template::findOrfail($templateId);
         $template->delete();
 
-        Flux::toast('Transaction Type successfully deleted')->success();
+        Flux::toast('Template successfully deleted')->success();
     }
 
     public function mount()
@@ -50,11 +50,11 @@ class FormListTemplate extends Component
 
     public function render()
     {
-        $types = Template::commonFilters($this->filters)
+        $templates = Template::commonFilters($this->filters)
             ->orderBy('name')
             ->paginate();
 
-        return view('livewire.templates.form-list-template', compact('types'));
+        return view('livewire.templates.form-list-template', compact('templates'));
     }
 
     public function saveTemplate()
@@ -65,13 +65,13 @@ class FormListTemplate extends Component
             $template = Template::findOrFail($this->id);
             $template->update($data['template']);
 
-            Flux::toast('Transaction Type successfully updated', variant: 'success');
+            Flux::toast('Template successfully updated', variant: 'success');
         } else {
 
             $template = Template::create($data['template']);
             $template->refresh();
 
-            Flux::toast('Transaction Type successfully created', variant: 'success');
+            Flux::toast('Template successfully created', variant: 'success');
         }
 
         $this->redirectRoute('templates.index');

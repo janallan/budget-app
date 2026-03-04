@@ -2,6 +2,7 @@
 
 use App\Livewire\CategoryList;
 use App\Livewire\Home;
+use App\Livewire\RecurringTransaction\RecurringTransactionList;
 use App\Livewire\Transaction\TransactionList;
 use App\Livewire\Users\SettingList;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('categories', CategoryList::class)->name('categories.index');
     Route::get('transactions', TransactionList::class)->name('transactions.index');
+    Route::get('recurring-transactions', RecurringTransactionList::class)->name('recurring-transactions.index');
     Route::get('settings', SettingList::class)->name('settings.index');
 
 });

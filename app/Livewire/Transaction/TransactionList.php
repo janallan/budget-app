@@ -25,7 +25,7 @@ class TransactionList extends Component
         $this->reset('id', 'transaction');
 
         $this->transaction = modelFillableToArray(Transaction::class);
-        $this->transaction['amount'] = null;
+        $this->transaction['amount'] = 0;
         $this->transaction['type'] = TransactionTypes::EXPENSE;
         $this->transaction['transaction_date'] = now()->toDateString();
     }
@@ -45,7 +45,7 @@ class TransactionList extends Component
         $transaction = Transaction::findOrfail($transactionId);
         $transaction->delete();
 
-        Flux::toast('Transaction Type successfully deleted')->success();
+        Flux::toast('Transaction Type successfully deleted', variant: 'success');
     }
 
     public function updatedTransactionCategoryId($value)

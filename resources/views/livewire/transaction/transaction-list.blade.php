@@ -96,7 +96,15 @@
 
             <div class="grid grid-cols-12 gap-4 mb-4">
                 <div class="col-span-6">
-                    <flux:input wire:model="transaction.amount" label="Amount" type="number" step="0.01" />
+                    <flux:input
+                        wire:model="transaction.amount"
+                        label="Amount"
+                        type="number"
+                        step="0.01"
+                        x-data
+                        @focus="if($el.value == 0) $el.value=''"
+                        @blur="if($el.value == 0) $el.value=''"
+                    />
                 </div>
                 <div class="col-span-6">
                     <flux:input wire:model="transaction.transaction_date" label="Transaction Date" type="date" />
