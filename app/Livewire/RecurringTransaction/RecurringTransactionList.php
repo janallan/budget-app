@@ -43,6 +43,9 @@ class RecurringTransactionList extends Component
     public function deleteRecurringTransaction($transactionId)
     {
         $transaction = RecurringTransaction::findOrfail($transactionId);
+
+        $hasTransaction = $transaction->transactions()->exists();
+        if ($hasTransaction) return Flux::toast('Recurring Transaction has existing Transaction. Kindly use the Active options', variant: 'success');
         $transaction->delete();
 
         Flux::toast('Recurring Transaction successfully deleted', variant: 'success');
@@ -113,6 +116,12 @@ class RecurringTransactionList extends Component
                 'numeric',
                 'gt:0',
             ],
+            'transaction.description' => [
+                'sometimes',
+                'nullable',
+                'string',
+                'max:200',
+            ],
             'transaction.is_active' => [
                 'sometimes',
                 'nullable',
@@ -135,6 +144,7 @@ class RecurringTransactionList extends Component
             'transaction.frequency' => 'Frequency',
             'transaction.day_of_month' => 'Day of Month',
             'transaction.amount' => 'Amount',
+            'transaction.description' => 'Description',
             'transaction.is_active' => 'Active',
         ];
 

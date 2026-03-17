@@ -21,6 +21,7 @@ class RecurringTransaction extends Model
         'frequency',
         'day_of_month',
         'amount',
+        'description',
         'is_active',
     ];
 
@@ -45,6 +46,16 @@ class RecurringTransaction extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    /**
+     * Get all of the transactions for the RecurringTransaction
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'recurring_transaction_id', 'id');
     }
 
     /**

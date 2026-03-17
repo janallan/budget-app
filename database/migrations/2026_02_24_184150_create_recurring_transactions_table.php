@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('frequency')->nullable()->default(RecurringFrequency::MONTHLY);
             $table->integer('day_of_month')->nullable();
             $table->decimal('amount', 15, 2);
+            $table->string('description')->nullable()->default(null);
             $table->boolean('is_active')->nullable()->default(true);
             $table->timestamps();
         });

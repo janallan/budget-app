@@ -5,6 +5,7 @@ namespace App\Livewire\Users;
 use App\Enums\SalaryOptions;
 use App\Enums\SalaryTypes;
 use Carbon\Carbon;
+use Flux\Flux;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -80,6 +81,9 @@ class SettingList extends Component
         $data = $this->validate();
 
         user()->setting->update($data['setting']);
+
+
+        Flux::toast('Setting successfully updated', variant: 'success');
     }
 
     public function render()

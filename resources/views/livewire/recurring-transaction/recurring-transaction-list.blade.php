@@ -11,6 +11,7 @@
     <flux:table :paginate="$transactions">
         <flux:table.columns>
             <flux:table.column>Category</flux:table.column>
+            <flux:table.column>Description</flux:table.column>
             <flux:table.column align="center">Day of Month</flux:table.column>
             <flux:table.column align="center">Amount</flux:table.column>
             <flux:table.column align="center">Active</flux:table.column>
@@ -21,6 +22,7 @@
             @foreach ($transactions as $transaction)
                 <flux:table.row :key="$transaction->id">
                     <flux:table.cell>{{ $transaction->category?->name }}</flux:table.cell>
+                    <flux:table.cell>{{ $transaction->description }}</flux:table.cell>
                     <flux:table.cell align="center">{{ $transaction->day_of_month }}</flux:table.cell>
                     <flux:table.cell align="end">{{ money_format($transaction->amount) }}</flux:table.cell>
                     <flux:table.cell align="center">
@@ -65,6 +67,9 @@
                     wire:model.change="transaction.category_id"
                     variant="listbox" searchable
                 />
+            </div>
+            <div class="col-span-12">
+                <flux:input wire:model="transaction.description" label="Description" />
             </div>
             <div class="col-span-6">
                 <flux:input
