@@ -59,6 +59,17 @@ class RecurringTransaction extends Model
     }
 
     /**
+     * Get the lastestTransaction associated with the RecurringTransaction
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function lastestTransaction()
+    {
+        return $this->hasOne(Transaction::class, 'recurring_transaction_id', 'id')
+            ->latest();
+    }
+
+    /**
      * Scope - common filters
      *
      * @param \Illuminate\Database\Eloquent\Builder $q

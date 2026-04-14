@@ -14,6 +14,7 @@
             <flux:table.column>Description</flux:table.column>
             <flux:table.column align="center">Day of Month</flux:table.column>
             <flux:table.column align="center">Amount</flux:table.column>
+            <flux:table.column>Last Transaction</flux:table.column>
             <flux:table.column align="center">Active</flux:table.column>
             <flux:table.column align="center">Action</flux:table.column>
         </flux:table.columns>
@@ -25,11 +26,32 @@
                     <flux:table.cell>{{ $transaction->description }}</flux:table.cell>
                     <flux:table.cell align="center">{{ $transaction->day_of_month }}</flux:table.cell>
                     <flux:table.cell align="end">{{ money_format($transaction->amount) }}</flux:table.cell>
+                    <flux:table.cell class="divide-y divide-zinc-600">
+                        @if ($transaction->lastestTransaction)
+                            <div class="flex justify-between">
+                                <div>Date</div>
+                                <div>{{ formatDate($transaction->lastestTransaction?->transaction_date) }}</div>
+                            </div>
+                            <div class="flex justify-between">
+                                <div>Amount</div>
+                                <div>{{ money_format($transaction->lastestTransaction?->amount) }}</div>
+                            </div>
+                        @else
+                            No transaction found.
+                        @endif
+                    </flux:table.cell>
+
                     <flux:table.cell align="center">
                         <flux:badge size="sm" :color="$transaction->is_active ? 'green' : 'red'" inset="top bottom">{{ $transaction->is_active ? 'Active' : 'Inactive' }}</flux:badge>
                     </flux:table.cell>
                     <flux:table.cell align="end">
                         <div class="flex justify-end gap-4">
+                            <flux:modal.trigger name="pay-transaction-form-modal">
+                                <flux:button size="xs" icon="plus" variant="primary" inset="top bottom"
+                                    wire:click="$dispatch('add-pay-transaction', {recurringTransactionId: {{ $transaction->id }}})"
+                                >Pay</flux:button>
+                            </flux:modal.trigger>
+                            <span>|</span>
                             <flux:button size="xs" icon="trash" variant="danger" inset="top bottom"
                                 wire:click="$dispatch('delete-transaction', {transactionId: {{ $transaction->id }}})"
                                 wire:confirm="Are you sure you want to delete this?"
@@ -107,5 +129,9 @@
                 <flux:button wire:click="saveRecurringTransaction" variant="primary">Save changes</flux:button>
             </div>
         </form>
+    </flux:modal>
+
+    <flux:modal name="pay-transaction-form-modal" class="lg:w-96" :dismissible="false">
+        <livewire:recurring-transaction.pay-transaction-form />
     </flux:modal>
 </div>

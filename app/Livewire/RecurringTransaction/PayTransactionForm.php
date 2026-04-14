@@ -1,36 +1,42 @@
 <?php
 
-namespace App\Livewire\Transaction;
+namespace App\Livewire\RecurringTransaction;
 
 use App\Enums\TransactionTypes;
 use App\Models\Category;
+use App\Models\RecurringTransaction;
 use App\Models\Transaction;
 use Flux\Flux;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
-class TransactionList extends Component
+class PayTransactionForm extends Component
 {
-    use WithPagination;
     public ?int $id = null;
+    public $recurringTransaction = null;
     public array $transaction = [];
     public array $filters = [];
     public array $options = [];
 
-    #[On('add-transaction')]
-    public function addTransaction()
+    #[On('add-pay-transaction')]
+    public function addTransaction($recurringTransactionId)
     {
         $this->reset('id', 'transaction');
 
+        $this->recurringTransaction = RecurringTransaction::findOrFail($recurringTransactionId);
         $this->transaction = modelFillableToArray(Transaction::class);
-        $this->transaction['amount'] = 0;
-        $this->transaction['type'] = TransactionTypes::EXPENSE;
+
+        $this->transaction['account_id'] = $this->recurringTransaction->account_id;
+        $this->transaction['type'] = $this->recurringTransaction->category->type;
+        $this->transaction['amount'] = $this->recurringTransaction->amount;
+        $this->transaction['category_id'] = $this->recurringTransaction->category_id;
         $this->transaction['transaction_date'] = now()->toDateString();
+        $this->transaction['description'] = $this->recurringTransaction->description;
+        $this->transaction['recurring_transaction_id'] = $this->recurringTransaction->recurring_transaction_id;
     }
 
-    #[On('edit-transaction')]
+    #[On('edit-pay-transaction')]
     public function editTransaction($transactionId)
     {
         $transaction = Transaction::findOrFail($transactionId);
@@ -45,21 +51,7 @@ class TransactionList extends Component
         $transaction = Transaction::findOrfail($transactionId);
         $transaction->delete();
 
-        Flux::toast('Transaction Type successfully deleted', variant: 'success');
-    }
-
-    public function updatedTransactionCategoryId($value)
-    {
-        $category = Category::find($value);
-        if ($category) {
-            $this->transaction['type'] = $category->type;
-        }
-        else $this->transaction['type'] = TransactionTypes::EXPENSE;
-    }
-
-    public function updatedFilters()
-    {
-        $this->resetPage();
+        Flux::toast('Transaction successfully deleted')->success();
     }
 
     public function mount()
@@ -70,32 +62,20 @@ class TransactionList extends Component
 
     public function render()
     {
-        $transactions = Transaction::commonFilters($this->filters)
-            ->orderByDesc('transaction_date')
-            ->orderByDesc('id')
-            ->paginate(10);
-
-        return view('livewire.transaction.transaction-list', compact('transactions'));
+        return view('livewire.recurring-transaction.pay-transaction-form');
     }
 
     public function saveTransaction()
     {
         $data = $this->validate();
 
-        if (filled($this->id)) {
-            $transaction = Transaction::findOrFail($this->id);
-            $transaction->update($data['transaction']);
+        $data['transaction']['recurring_transaction_id'] = $this->recurringTransaction->id;
+        $transaction = Transaction::create($data['transaction']);
+        $transaction->refresh();
 
-            Flux::toast('Transaction Type successfully updated', variant: 'success');
-        } else {
+        Flux::toast('Transaction successfully created', variant: 'success');
 
-            $transaction = Transaction::create($data['transaction']);
-            $transaction->refresh();
-
-            Flux::toast('Transaction Type successfully created', variant: 'success');
-        }
-
-        $this->redirectRoute('transactions.index');
+        $this->redirectRoute('recurring-transactions.index');
     }
 
     /**
@@ -129,7 +109,6 @@ class TransactionList extends Component
                 'string',
                 'max:200',
             ],
-
         ];
 
         return $rules;
